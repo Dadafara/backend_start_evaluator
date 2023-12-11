@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class UserSocial extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,15 +19,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'website',
-        'compagnie_name',
-        'first_name',
-        'last_name',
-        'job_title',
+        'name',
         'email',
-        'country',
-        'contact',
         'password',
+        'google_id'
     ];
 
     /**

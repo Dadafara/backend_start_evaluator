@@ -23,13 +23,10 @@ class UserController extends Controller
         try{
             $validator = Validator::make($request->all(),
             [
-                // 'name' => 'required',
-                // 'email' => 'required|string|max:255|unique:users,email',
-                // 'password' => 'required',
                 'website' => 'required|url',
-                'nom_compagnie' => 'required|string|max:255',
-                'nom' => 'required|string|max:255',
-                'prenom' => 'required|string|max:255',
+                'compagnie_name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
                 'job_title' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users,email',
                 'country' => 'required|string|max:255',
@@ -45,13 +42,10 @@ class UserController extends Controller
                 ], 401);
             }
             $user = user::create([
-                // 'name' => $request->name,
-                // 'email' => $request->email,
-                // 'password' => Hash::make($request->password),
                 'website' => $request->website,
-                'nom_compagnie' => $request->nom_compagnie,
-                'nom' => $request->nom,
-                'prenom' => $request->prenom,
+                'compagnie_name' => $request->compagnie_name,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
                 'job_title' => $request->job_title,
                 'email' => $request->email,
                 'country' => $request->country,
@@ -88,9 +82,7 @@ class UserController extends Controller
                     'status' => false,
                     'message' => 'Erreur validation',
                     'errors' => $validator->errors(),
-                    // 'token' => $user->createToken("API TOKEN")->plainTextToken
                 ],401);
-                // return Response(['message' => $validator->errors()],401);
             }
             if(!Auth::attempt($request->only(['email', 'password']))){
                 return response()->json([
@@ -98,13 +90,6 @@ class UserController extends Controller
                     'message' => 'Erreur de mot de passe ou adresse email.',
                 ], 401);
             }
-            // if(Auth::attempt($request->all())){
-            //     $user = Auth::user();
-            //     $success = $user->createToken('MyApp')->plainTextToken;
-
-            //     return Response(['token' => $success],200);
-            // }
-            // return Response(['message' => 'email ou mot de passe erroné'],401);
             $user = User::where('email', $request->email)->first();
             return response()->json([
                 'status' => true,

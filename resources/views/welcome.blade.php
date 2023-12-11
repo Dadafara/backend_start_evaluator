@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<a href="{{ route('login')}}"><h4>Google authentification</h4></a>
+
+
+<!-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -137,4 +140,4 @@
             </div>
         </div>
     </body>
-</html>
+</html> -->

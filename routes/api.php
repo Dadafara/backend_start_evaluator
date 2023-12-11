@@ -2,26 +2,16 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\UserController;
-use App\Http\Controller\AuthController;
+use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\GoogleController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
+//Registre et Login BUSSINES START EVALUATOR
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('login', [UserController::class,'loginUser']);
-Route::post('registre', [UserController::class,'createUser']);
+Route::post('/login', [UserController::class,'loginUser']);
+Route::post('/registre', [UserController::class,'createUser']);
 Route::get('/login/{provider}', [UserController::class,'redirectToProvider']);
 Route::get('/login/{provider}/callback', [UserController::class,'handleProviderCallback']);
 
@@ -30,6 +20,36 @@ Route::group(['middleware'=> 'auth:sanctum'],function(){
     Route::get('logout',[UserController::class, 'logout']);
 });
 
+
+//google auth Route
+
+Route::get('/', function (){
+    return view('welcome');
+});
+
+Route::get('auth/google', [GoogleController::class,'loginWithGoogle'])->name('login');
+Route::any('auth/google/callback',[GoogleController::class,'callbackFromGoogle'])->name('callback');
+
+Route::get('home', function(){
+    return view('home');
+})->name('home');
+
+
+// //test route
+// Route::group(['prefix' => '/auth', ['middleware' => 'throttle:20,5']], function() {
+//     Route::post('/register', 'Auth\RegisterController@register');
+//     Route::post('/login', 'Auth\LoginController@login');
+
+//     Route::get('/login/{service}', 'Auth\SocialLoginController@redirect');
+//     Route::get('/login/{service}/callback', 'Auth\SocialLoginController@callback');
+// });
+
+// Route::group(['middleware' => 'jwt.auth'], function() {
+//     Route::get('/me', 'MeController@index');
+
+//     Route::get('/auth/logout', 'MeController@logout');
+// });
+
 // Route::controller(AuthController::class)->group(function(){
-//     Route::post('login', [UserController::class,'loginUser']);
+//     Route::post('login', 'login');
 // });

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\GoogleAuth;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,27 +13,16 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
 use GuzzleHttp\Exception\ClientException;
 use Laravel\Socialite\Facades\Socialite;
-// use Auth;
-// use Validator;
 
-class UserController extends Controller
+class GoogleAuthController extends Controller
 {
     public function createUser(Request $request)
     {
         try{
             $validator = Validator::make($request->all(),
             [
-                // 'name' => 'required',
-                // 'email' => 'required|string|max:255|unique:users,email',
-                // 'password' => 'required',
-                'website' => 'required|url',
-                'nom_compagnie' => 'required|string|max:255',
-                'nom' => 'required|string|max:255',
-                'prenom' => 'required|string|max:255',
-                'job_title' => 'required|string|max:255',
+                'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users,email',
-                'country' => 'required|string|max:255',
-                'contact' => 'required|string|max:255',
                 'password' => 'required',
             ]);
 
@@ -45,17 +34,8 @@ class UserController extends Controller
                 ], 401);
             }
             $user = user::create([
-                // 'name' => $request->name,
-                // 'email' => $request->email,
-                // 'password' => Hash::make($request->password),
-                'website' => $request->website,
-                'nom_compagnie' => $request->nom_compagnie,
-                'nom' => $request->nom,
-                'prenom' => $request->prenom,
-                'job_title' => $request->job_title,
+                'name' => $request->nom,
                 'email' => $request->email,
-                'country' => $request->country,
-                'contact' => $request->contact,
                 'password' => Hash::make($request->password),
             ]);
             return response()->json([
@@ -74,51 +54,7 @@ class UserController extends Controller
 
 
 
-    public function loginUser(Request $request)
-    {
-        try{
-            $validator = Validator::make($request->all(),
-            [
-                'email' => 'required|email',
-                'password' => 'required',
-            ]);
 
-            if($validator->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Erreur validation',
-                    'errors' => $validator->errors(),
-                    // 'token' => $user->createToken("API TOKEN")->plainTextToken
-                ],401);
-                // return Response(['message' => $validator->errors()],401);
-            }
-            if(!Auth::attempt($request->only(['email', 'password']))){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Erreur de mot de passe ou adresse email.',
-                ], 401);
-            }
-            // if(Auth::attempt($request->all())){
-            //     $user = Auth::user();
-            //     $success = $user->createToken('MyApp')->plainTextToken;
-
-            //     return Response(['token' => $success],200);
-            // }
-            // return Response(['message' => 'email ou mot de passe erroné'],401);
-            $user = User::where('email', $request->email)->first();
-            return response()->json([
-                'status' => true,
-                'message' => 'Connexion reussi.',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ],200);
-        } catch(\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ],500);
-        }
-
-    }
 
 
     public function userDetails(): Response
