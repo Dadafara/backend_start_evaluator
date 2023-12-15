@@ -4,9 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\Auth\AuthController;
 
 //Registre et Login BUSSINES START EVALUATOR
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -18,7 +19,7 @@ Route::get('/login/{provider}/callback', [UserController::class,'handleProviderC
 Route::group(['middleware'=> 'auth:sanctum'],function(){
     Route::get('user',[UserController::class,'userDetails']);
     Route::get('logout',[UserController::class, 'logout']);
-});
+});*/
 
 
 //google auth Route
@@ -29,6 +30,12 @@ Route::get('/', function (){
 
 Route::get('auth/google', [GoogleController::class,'loginWithGoogle'])->name('login');
 Route::any('auth/google/callback',[GoogleController::class,'callbackFromGoogle'])->name('callback');
+
+// Route::get('login', [AuthController::class,'index'])->name('login');
+// Route::get('registration', [AuthController::class,'registration'])->name('registration');
+Route::post('registration', [AuthController::class,'postRegistration'])->name('registration.post');
+Route::post('post-login', [AuthController::class,'postLogin'])->name('login.post');
+
 
 Route::get('home', function(){
     return view('home');

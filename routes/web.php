@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
-use App\Http\Controller\AuthController;
+//use App\Http\Controller\AuthController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use App\Http\Controllers\GoogleController;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
 });
 
@@ -40,7 +41,7 @@ Route::get('/auth/callback', function () {
     $user = Socialite::driver('google')->user();
     dd($user);
     // $user->token
-});
+});*/
 
 //google Route
 
@@ -48,9 +49,15 @@ Route::get('/', function (){
     return view('welcome');
 });
 
-Route::get('auth/google', [GoogleController::class,'loginWithGoogle'])->name('login');
+Route::get('auth/google', [GoogleController::class,'loginWithGoogle'])->name('loginGoogle');
 Route::any('auth/google/callback',[GoogleController::class,'callbackFromGoogle'])->name('callback');
+
+Route::get('login', [AuthController::class,'index'])->name('login');
+Route::get('registration', [AuthController::class,'registration'])->name('registration');
+Route::post('post-registration', [AuthController::class,'postRegistration'])->name('registration.post');
+Route::post('post-login', [AuthController::class,'postLogin'])->name('login.post');
 
 Route::get('home', function(){
     return view('home');
 })->name('home');
+

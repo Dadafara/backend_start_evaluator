@@ -45,4 +45,9 @@ class GoogleController extends Controller
             throw $th;
         }
     }
+
+    public Function loginWithFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
 }

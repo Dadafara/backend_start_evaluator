@@ -21,23 +21,17 @@ return [
         'sanctum/csrf-cookie',
         'login',
         'registre',
-        'logout'
+        'logout',
+        'auth/google',
+        'auth/google/callback'
     ],
 
-    'allowed_methods' => ['*'],
-
-    // 'allowed_origins' => ['*'],
+    'allowed_methods' => ['GET', 'POST'],
     'allowed_origins' => ['http://localhost:3000'],
-
     'allowed_origins_patterns' => [],
-
-    'allowed_headers' => ['*'],
-
-    'exposed_headers' => [],
-
-    'max_age' => 0,
-
-    // 'supports_credentials' => false,
+    'allowed_headers' => ['Content-Type', 'Authorization', 'x-xsrf-token'],
+    'exposed_headers' => ['Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
+    'max_age' => 60 * 60,
     'supports_credentials' => true,
 
 ];
