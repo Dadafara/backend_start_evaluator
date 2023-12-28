@@ -28,8 +28,8 @@ Route::get('/', function (){
     return view('welcome');
 });
 
-Route::get('auth/google', [GoogleController::class,'loginWithGoogle'])->name('login');
-Route::any('auth/google/callback',[GoogleController::class,'callbackFromGoogle'])->name('callback');
+Route::get('/auth/google', [GoogleController::class,'loginWithGoogle'])->middleware(Spatie\Csp\AddCspHeaders::class);
+Route::any('/auth/google/callback',[GoogleController::class,'callbackFromGoogle'])->name('callback');
 
 // Route::get('login', [AuthController::class,'index'])->name('login');
 // Route::get('registration', [AuthController::class,'registration'])->name('registration');

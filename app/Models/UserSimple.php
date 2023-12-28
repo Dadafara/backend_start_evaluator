@@ -44,4 +44,9 @@ class UserSimple extends Authenticatable
 
     // Définissez le nom de la table explicitement
     protected $table = 'user';
+
+    public function reviews()
+    {
+        return $this->hasMany(Reviews::class, 'user_id', 'id');
+    }
 }
